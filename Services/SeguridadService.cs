@@ -1,77 +1,109 @@
-using System.Text;
-
 namespace CesarWeb.Services
+
 {
 
+
+
     public class SeguridadService : ISeguridadService<int>
+
     {
-        static string ABECEDARIO = ("ABCDEFGHIJKLMNÑOPQRSTUVWXYZ");
+
+        // para que no pase y brinque numeros
+
+        static string ABECEDARIO = ("'A'BCDEFGHIJKLMNÑOPQRSTUVWXYZABCDEFGHIJKLMNÑOPQRSTUVWXYZ");
+
+        static string abecedario= ("'z'yxwvutsrqpoñnmlkjihgfedcbazyxwvutsrqpoñnmlkjihgfedcba");
+
+
 
         ///  Aquí deben hacer todo el código necesario para Desencriptar el mensaje
+
         public string DesEncriptar(string Mensaje, int clave)
+
         {
-            StringBuilder msjDesEnc = new StringBuilder();
-            foreach (var letra in Mensaje)
-            {
-                if (char.IsLetter(letra))
-                {
-                    var posLetra = ABECEDARIO.IndexOf(char.ToUpper(letra));
-                    var posLetraDesEnc = (posLetra - clave) % ABECEDARIO.Length;
-                    /// Esto es lo mismo que un if(posLetraDesEnc < 0){posLetraDesEnc += ABECEDARIO.Length} else {posLetraDesEnc}
-                    posLetraDesEnc = posLetraDesEnc < 0 ? posLetraDesEnc = ABECEDARIO.Length + posLetraDesEnc : posLetraDesEnc;
-                    var letraDesEnc = ABECEDARIO[posLetraDesEnc];
-                    if (char.IsUpper(letra))
-                    {
-                        msjDesEnc.Append(letraDesEnc);
+
+            int a=0;
+
+            int t=0;
+
+            string igualar=Mensaje;
+
+            for(a=0;a<Mensaje.Length;a++){
+
+                for(t=0;t<=52;t++){
+
+                    //  mayusculas
+
+                    if(Mensaje[a]==ABECEDARIO[t]){
+
+                        igualar=igualar.Replace(igualar[a],ABECEDARIO[t-clave]);
+
                     }
-                    else
-                    {
-                        msjDesEnc.Append(char.ToLower(letraDesEnc));
+
+                    // minusculas
+
+                    if(Mensaje[a]==abecedario[t]){
+
+                        igualar=igualar.Replace(igualar[a],abecedario[t-clave]);
+
                     }
-                }
-                else
-                {
-                    msjDesEnc.Append(letra);
+
                 }
 
             }
-            return msjDesEnc.ToString();
+
+            Mensaje=igualar;
+
+            return Mensaje;
+
         }
 
 
+
+        
+
+        
 
         ///  Aquí deben hacer todo el código necesario para Encriptar el mensaje
+
         public string Encriptar(string Mensaje, int clave)
-        {
-            /// sirve para construir una cadena de manera dinamica
-            StringBuilder msjEncriptado = new StringBuilder();
 
-            foreach (var letra in Mensaje)
-            {
-                if (char.IsLetter(letra))
-                {
-                    var posLetra = ABECEDARIO.IndexOf(char.ToUpper(letra));
-                    var posLetraEnc = (posLetra + clave) % ABECEDARIO.Length;
-                    var letrEnc = ABECEDARIO[posLetraEnc];
-                    if (char.IsUpper(letra))
-                    {
-                        msjEncriptado.Append(letrEnc);
-                    }
-                    else
-                    {
-                        msjEncriptado.Append(char.ToLower(letrEnc));
+    {
+
+            int aron=0;
+
+            int tory=0;
+
+            string comparacion=Mensaje;
+
+            for(aron=0;aron<Mensaje.Length;aron++){
+
+                for(tory=0;tory<=52;tory++){
+
+                    if(Mensaje[aron]==ABECEDARIO[tory]){
+
+
+
+                        comparacion=comparacion.Replace(comparacion[aron],ABECEDARIO[tory+clave]);
+
                     }
 
+                    if(Mensaje[aron]==abecedario[tory]){
+
+                        comparacion=comparacion.Replace(comparacion[aron],abecedario[tory-clave]);
+
+                    }
 
                 }
-                else
-                {
-                    msjEncriptado.Append(letra);
-                }
+
             }
-            return msjEncriptado.ToString();
-        }
-    }
 
+            Mensaje=comparacion;
+
+            return Mensaje;
+
+        }
+
+    }
 
 }
